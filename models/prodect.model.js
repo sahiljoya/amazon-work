@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Imageid from "./image.prodect.js";
 const prodect = new mongoose.Schema({
     name: {
         type: String,
@@ -19,6 +20,7 @@ const prodect = new mongoose.Schema({
         type: String,
         required: true
     },
+    image:[Imageid],
     status: {
         type: String,
         enum: ["Active", "Deactive"],
