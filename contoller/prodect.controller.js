@@ -11,7 +11,7 @@ export const im = async (req, res) => {
             imagetype = 'jpg'
         }
         let imageData = {
-            imagetype:imagetype,
+            type:imagetype,
             path:image.filename,
             fullpath:"https://hello-api-prodect.herokuapp.com"+image.path
         }
