@@ -3,7 +3,7 @@ import prodect from "../models/prodect.model.js"
 export const im = async (req, res) => {
     try {
         var imageallData = []
-       req.files.forEach(async(image) => {
+       req.files.forEach(image => {
         var imagetype = ''
         if (image.mimetype == 'png') {
             imagetype = 'png'
@@ -15,6 +15,8 @@ export const im = async (req, res) => {
             path:image.filename,
             fullpath:"https://hello-api-prodect.herokuapp.com"+image.path
         }
+       res.send(imageData);
+       return
         imageallData.push(imageData)
        });
        req.body.image = imageallData
