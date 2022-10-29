@@ -5,6 +5,7 @@ import atrouter from "./router/cetegory.router.js";
 import subRouter from "./router/sub.router.js";
 import imagerouter from "./router/prodect.image.router.js";
 import { config } from "dotenv";
+import ratRouter from "./router/rating.router.js";
 const app = Express()
 app.use(Express.json())
 connectDB()
@@ -13,6 +14,7 @@ app.use(imagerouter)
 app.use(subRouter)
 app.use(atrouter)
 app.use(router)
+app.use(ratRouter)
 app.listen(process.env.PORT ||  3003, (req, res) => {
     console.log("server port:3003");
 })
