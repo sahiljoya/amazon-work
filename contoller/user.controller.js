@@ -103,7 +103,11 @@ export const update = async (req, res) => {
     try {
         const up = await user.findOneAndUpdate({ _id: req.body.id }, req.body)
         if (up) {
-
+            res.send({
+                status:true,
+                msg:"data update",
+                data:up
+            })
         } else {
             res.send({
                 status: true,
