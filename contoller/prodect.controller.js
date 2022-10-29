@@ -15,8 +15,7 @@ export const im = async (req, res) => {
             path:image.filename,
             fullpath:"https://hello-api-prodect.herokuapp.com"+image.path
         }
-       res.send(imageData);
-       return
+        console.log(imageData);
         imageallData.push(imageData)
        });
        req.body.image = imageallData
