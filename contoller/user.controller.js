@@ -148,3 +148,29 @@ export const deletedata = async (req, res) => {
         })
     }
 }
+export const getOtp = async (req, res) => {
+    try {
+        var data = 8955
+        req.body.otp = data
+        const findOtp = await user.findByIdAndUpdate({ _id: req.body.id }, req.body)
+        if (findOtp) {
+            res.send({
+                status: true,
+                msg: "get otp success",
+                data: findOtp
+            })
+        } else {
+            res.send({
+                status: false,
+                msg: "cant get otp somedata wrong try again",
+                data: {}
+            })
+        }
+    } catch (err) {
+        res.send({
+            status: false,
+            msg: "somthing wrong with data mistec",
+            data: err
+        })
+    }
+}

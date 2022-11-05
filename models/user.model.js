@@ -16,12 +16,24 @@ const schema = new mongoose.Schema({
         type: String,
         required: true
     },
+    getnumberVerify:{
+        type:String,
+        required:false,
+        default:false
+    },
+    getemailVerify:{
+       type:String,
+       required:false,
+       default:false 
+    },
+    otp:{
+        type:Number,
+        required:false
+    },
     token: {
         type: String,
         required: false
-    },
-   
-
+    }
 })
 const user = mongoose.model("shecma", schema)
 export default user
