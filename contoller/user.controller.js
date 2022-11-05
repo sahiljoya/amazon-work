@@ -4,7 +4,6 @@ import Jwt from "jsonwebtoken";
 export const sing = async (req, res) => {
     try {
         const idMach = await user.findOne({ number: req.body.number })
-        const emailID = await user.findOne({ email: req.body.email })
         if (idMach) {
             res.send({
                 status: false,
@@ -12,14 +11,7 @@ export const sing = async (req, res) => {
                 data: {}
             })
 
-        } else if (emailID) {
-            res.send({
-                status: false,
-                msg: "email is allready axixest",
-                data: {}
-            })
-        }
-        else {
+        } else {
             const pass = await bcrypt.hash(req.body.password, 10)
             req.body.password = pass
             const creat = await user.create(req.body)
@@ -104,9 +96,9 @@ export const update = async (req, res) => {
         const up = await user.findOneAndUpdate({ _id: req.body.id }, req.body)
         if (up) {
             res.send({
-                status:true,
-                msg:"data update",
-                data:up
+                status: true,
+                msg: "data update",
+                data: up
             })
         } else {
             res.send({

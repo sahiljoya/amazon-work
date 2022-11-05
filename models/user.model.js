@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const schema = new mongoose.Schema({
     email: {
         type: String,
-        required: true
+        required: false
     },
     number: {
         type: String,
@@ -20,14 +20,7 @@ const schema = new mongoose.Schema({
         type: String,
         required: false
     },
-    firstname: {
-        type: String,
-        required: true
-    },
-    lastname: {
-        type: String,
-        required: true
-    }
+   
 
 })
 const user = mongoose.model("shecma", schema)
