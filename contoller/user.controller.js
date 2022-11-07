@@ -32,6 +32,7 @@ export const sing = async (req, res) => {
 export const login = async (req, res) => {
     try {
         const numberMach = await user.findOne({ number: req.body.number })
+        const emailMach = await user.findOne({ email: req.body.email })
         if (numberMach) {
             const machPass = await bcrypt.compare(req.body.password, numberMach.password)
             if (machPass == true) {
@@ -50,7 +51,25 @@ export const login = async (req, res) => {
                     data: {}
                 })
             }
-        } else {
+        }else if (emailMach) {
+            const emailpass = await bcrypt.compare(req.body.password, emailMach.password)
+            if (emailpass == true) {
+                emailMach.token = await Jwt.sign({ time: Date(), userid: emailMach._id }, "khan")
+                // const token = await Jwt.sign({time:Date(),userid:numberMach._id},"khan")
+                // numberMach.token=token
+                res.send({
+                    status: true,
+                    "msg": "Login successfully",
+                    data: emailMach
+                })
+            } else {
+                res.send({
+                    status: false,
+                    "msg": "somthing was wrong pleass try aggain",
+                    data: {}
+                })
+            }
+        }else {
             res.send({
                 status: false,
                 "msj": "Your accunt is note created pleass try aggain",
