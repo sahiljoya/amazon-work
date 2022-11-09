@@ -31,7 +31,7 @@ export const uploadData = async (req, res) => {
 }
 export const getsub = async (req, res) => {
     try {
-        const findhd = await Subs.find({ status: "Active" }).populate("createBy").populate("cateId")
+        const findhd = await Subs.find({ status: "Active" }).populate("createBy").populate("cateId").sort({'_id': -1})
         if (findhd) {
             res.send({
                 status: true,

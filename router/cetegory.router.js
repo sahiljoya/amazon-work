@@ -1,5 +1,6 @@
 import Express from "express";
-import { cetegiri } from "../contoller/cetegory.controller.js";
+import { cetegiri, getCetegorry } from "../contoller/cetegory.controller.js";
 const atrouter = Express.Router()
-atrouter.route("/all/cetegory").post(cetegiri)
+atrouter.route("/backand-api/cetegory").post(cetegiri)
+atrouter.route("/find/cetegory").get(getCetegorry)
 export default atrouter

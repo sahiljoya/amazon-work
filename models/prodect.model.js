@@ -12,6 +12,9 @@ const prodect = new mongoose.Schema({
     createdBy: {
         type: mongoose.Schema.Types.ObjectId, ref: 'shecma'
     },
+    sub_cate_id: {
+        type: mongoose.Schema.Types.ObjectId, ref: 'sub.cotegiris'
+    },
     is_popular: {
         type: Boolean,
         default: 0

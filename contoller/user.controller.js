@@ -16,7 +16,6 @@ export const sing = async (req, res) => {
             req.body.password = pass
             const creat = await user.create(req.body)
             creat.token = await Jwt.sign({ time: Date(), userId: creat._id }, "khan")
-            console.log(creat);
             res.send({
                 status: true,
                 "msg": "sing successfully",
@@ -51,7 +50,7 @@ export const login = async (req, res) => {
                     data: {}
                 })
             }
-        }else if (emailMach) {
+        } else if (emailMach) {
             const emailpass = await bcrypt.compare(req.body.password, emailMach.password)
             if (emailpass == true) {
                 emailMach.token = await Jwt.sign({ time: Date(), userid: emailMach._id }, "khan")
@@ -69,7 +68,7 @@ export const login = async (req, res) => {
                     data: {}
                 })
             }
-        }else {
+        } else {
             res.send({
                 status: false,
                 "msj": "Your accunt is note created pleass try aggain",
@@ -164,32 +163,6 @@ export const deletedata = async (req, res) => {
             status: false,
             msg: "something wrong",
             data: {}
-        })
-    }
-}
-export const getOtp = async (req, res) => {
-    try {
-        var data = 8955
-        req.body.otp = data
-        const findOtp = await user.findByIdAndUpdate({ _id: req.body.id }, req.body)
-        if (findOtp) {
-            res.send({
-                status: true,
-                msg: "get otp success",
-                data: findOtp
-            })
-        } else {
-            res.send({
-                status: false,
-                msg: "cant get otp somedata wrong try again",
-                data: {}
-            })
-        }
-    } catch (err) {
-        res.send({
-            status: false,
-            msg: "somthing wrong with data mistec",
-            data: err
         })
     }
 }
