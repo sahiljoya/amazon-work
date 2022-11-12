@@ -69,7 +69,7 @@
 //         })
 //         var mailoption = {
 //             from: "sahildeshwali1212@gmail.com",
-//             to: req.body,
+//             to: req.body.email,
 //             subject: "Verification OTP for pixels.com",
 //             html: "<p>Your verification OTP is:"+otp+"</ap>"
 //         }
@@ -110,6 +110,67 @@
 //             status: false,
 //             msg: "somthing wrong with data mistec",
 //             data: err
+//         })
+//     }
+// }
+
+
+
+
+
+
+
+
+
+
+// export const emailVerify = async (req, res) => {
+//     try {
+//         var otp = Math.floor(1000 + Math.random() * 9000)
+//         req.body.otp=otp
+//         const findEmail = user.findOne({ email: req.body.email })
+        
+//         await user.findOneAndUpdate({_id:findEmail.id},)
+//         if (findEmail) {
+//             const tranpoter = nodemailer.createTransport({
+//                 host: process.env.HOST,
+//                 port: process.env.CODE,
+//                 secure: false,
+//                 requireTLS: true,
+//                 auth: {
+//                     user: process.env.AUTH_USER,
+//                     pass: process.env.AUTHPASS
+//                 },
+//             })
+//             var mailoption = {
+//                 from: process.env.FROM,
+//                 to: req.body.email,
+//                 subject: "Verification OTP for pixels.com",
+//                 html: "<p>Your verification OTP is:" + otp + "</ap>"
+//             }
+//             tranpoter.sendMail(mailoption, function (err, info) {
+//                 if (err) {
+//                     console.log(err);
+//                 } else {
+//                     console.log(info.response);
+//                 }
+//             })
+//             res.send({
+//                 status: true,
+//                 msg: "email verify",
+//                 data: findEmail
+//             })
+//         } else {
+//             res.send({
+//                 status: false,
+//                 msg: "email can't find some auder misteck",
+//                 data: {}
+//             })
+//         }
+//     } catch (err) {
+//         res.send({
+//             status:false,
+//             msg:"same data misteck and server ERROR with REQUESTE",
+//             data:err
 //         })
 //     }
 // }

@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import Uschema from "./otp.model.js";
 const ss = new mongoose.Schema({
     email: {
         type: String,
@@ -17,17 +16,20 @@ const ss = new mongoose.Schema({
         type: String,
         required: true
     },
-    // getnumberVerify:{
-    //     type:String,
-    //     required:false,
-    //     default:false
-    // },
-    // getemailVerify:{
-    //    type:String,
-    //    required:false,
-    //    default:false 
-    // },
-    otp:{Uschema},
+    getnumberVerify:{
+        type:String,
+        required:false,
+        default:false
+    },
+    getemailVerify:{
+       type:String,
+       required:false,
+       default:false 
+    },
+    otp:{
+        type:Number,
+        required:false
+    },
     token: {
         type: String,
         required: false
