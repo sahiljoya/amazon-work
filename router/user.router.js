@@ -12,6 +12,6 @@ router.route("/user/delete").delete(auth, deletedata)
 router.route("/user/otp-resend").get(resendOtp)
 router.route("/user/otp-verify").get(verifyOtp)
 router.route("/user/cange-pass").post(resendPass)
-router.route("/user/send-email.otp").post(gmailsend)
+router.route("/user/send-email-otp").post(gmailsend)
 router.route("/user/otp-verify-password-forget-email").put(ForgetPassEmail)
 export default router
