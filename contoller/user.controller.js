@@ -18,7 +18,7 @@ export const sing = async (req, res) => {
             req.body.password = pass
             req.body.otp= otp
             const creat = await user.create(req.body)
-            console.log(otp);
+            //console.log(otp);
             creat.token = await Jwt.sign({ time: Date(), userId: creat._id }, "khan")
             res.send({
                 status: true,
