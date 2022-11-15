@@ -26,7 +26,7 @@ export const auth = (req,res,next)=>{
     } catch (error) {
         res.status(401).send({
             status:false,
-            msg:"somthing wrong",
+            msg:"auth somthing wrong",
             data:{}
         })
         return;
