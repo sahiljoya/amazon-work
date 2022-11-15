@@ -21,9 +21,26 @@
 //             })
 //         }
 
+// import user from "./models/user.model"
 
 
 
+// const jsonarray = await csv().fromFile("xl-file.csv")
+// const finduser = await user.find(jsonarray)
+// if (finduser) {
+//     res.send({
+//         status:false,
+//         msg:"users allready h",
+//         data:{}
+//     })
+// }else{
+//     const insertdata = await user.insertMany(jsonarray)
+//     res.send({
+//         status:true,
+//         msg:"user insert success",
+//         data:insertdata
+//     })
+// }
 
 
 

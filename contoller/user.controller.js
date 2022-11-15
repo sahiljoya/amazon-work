@@ -2,6 +2,8 @@ import user from "../models/user.model.js";
 import bcrypt from "bcrypt"
 import Jwt from "jsonwebtoken";
 import nodemailer from "nodemailer"
+import csv from "csvtojson"
+import fs from "fs"
 export const sing = async (req, res) => {
     try {
         const idMach = await user.findOne({ number: req.body.number })
@@ -13,10 +15,10 @@ export const sing = async (req, res) => {
             })
 
         } else {
-            var otp = Math.floor(1000+Math.random()*9000)
+            var otp = Math.floor(1000 + Math.random() * 9000)
             const pass = await bcrypt.hash(req.body.password, 10)
             req.body.password = pass
-            req.body.otp= otp
+            req.body.otp = otp
             const creat = await user.create(req.body)
             //console.log(otp);
             creat.token = await Jwt.sign({ time: Date(), userId: creat._id }, "khan")
@@ -294,7 +296,7 @@ export const gmailsend = async (req, res) => {
             if (err) {
                 //console.log("ERROR----", err);
             } else {
-              //  console.log("INFO---", info.response);
+                //  console.log("INFO---", info.response);
             }
         })
         //console.log(otp)
@@ -349,6 +351,78 @@ export const ForgetPassEmail = async (req, res) => {
             status: false,
             msg: "same data misteck and server ERROR with REQUESTE",
             data: err
+        })
+    }
+}
+export const insertUserdata = async (req, res) => {
+    //  try {
+    const jsonarray = await csv().fromFile("xl-file.csv")
+    const finduser = await user.find(jsonarray)
+    if (finduser) {
+        res.send({
+            status: false,
+            msg: "users allready h",
+            data: {}
+        })
+    } else {
+        const insertdata = await user.insertMany(jsonarray)
+        if (insertdata) {
+            res.send({
+                status: true,
+                msg: "user insert success",
+                data: insertdata
+            })
+        } else {
+            res.send({
+                status: false,
+                msg: "some misteck for data",
+                data: {}
+            })
+        }
+    }
+    //    } catch (err) {
+    //     res.send({
+    //         status:false,
+    //         msg:"some misteck for data Server error",
+    //         data:err
+    //     })
+    //    }
+}
+export const imageUpload = async (req, res) => {
+    try {
+        var imagebash64 = req.body.image
+        var lowerCash = imagebash64.toLowerCase()
+        var extension = undefined
+        if (lowerCash.indexOf("jpg") == 11 || lowerCash.indexOf("jpeg") == 11) {
+            extension = 'jpg'
+            var bare64Data = imagebash64.replace(/^data:image\/jpeg;base64,/, "")
+        } else if (lowerCash.indexOf("png") == 11 ) {
+            extension = 'png'
+            var bare64Data = imagebash64.replace(/^data:image\/png;base64,/, "")
+        }
+        var imagePath = "images" + "/" + Date.now() + "." + extension
+        fs.writeFile(imagePath, bare64Data, 'base64', function (err) {
+            console.log(err);
+            if (err) {
+                res.send({
+                    status:false,
+                    msg:"image path error",
+                    data:err
+                })
+            }else{
+                res.send({
+                    status:true,
+                    msg:"image upload success",
+                    data:imagePath
+                })
+            }
+        })
+
+    } catch (err) {
+        res.send({
+            status:false,
+            msg:"server error",
+            data:err
         })
     }
 }
