@@ -39,7 +39,7 @@ export const im = async (req, res) => {
 
 export const getprodect = async (req, res) => {
     try {
-        const getData = await prodect.find({ status: "Active", sub_cate_id: req.body.subCateId }).sort({ '_id': -1 })
+        const getData = await prodect.find({ status: "Active"}).sort({ '_id': -1 })
         if (getData.length > 0) {
             res.send({
                 status: true,
