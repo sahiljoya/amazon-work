@@ -25,3 +25,17 @@ export const imageUploaded = multer({
         cb(undefined, true)
     }
 })
+
+export const userExcel = multer({
+    storage: imageStorege,
+    limits: {
+        fileSize: 1000000 * 10  // 1000000 Bytes = 1 MB 
+    },
+    fileFilter(req, file, cb) {
+        if (!file.originalname.match(/\.(xlse|csv)$/)) {
+            // upload only png and jpg format
+            return cb(new Error("pleass anter valid Excel"))
+        }
+        cb(undefined, true)
+    }
+})

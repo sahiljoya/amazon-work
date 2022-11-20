@@ -5,6 +5,7 @@ import {
     resendOtp, verifyOtp, resendPass, gmailsend,
     ForgetPassEmail, insertUserdata, imageUpload
 } from "../contoller/user.controller.js";
+import { userExcel } from "../servish/image.servish.js";
 const router = Express.Router()
 router.route("/user/sing").post(sing)
 router.route("/user/login").put(login)
@@ -16,6 +17,6 @@ router.route("/user/otp-verify").post(auth, verifyOtp)
 router.route("/user/cange-pass").post(auth, resendPass)
 router.route("/user/send-email-otp").post(auth, gmailsend)
 router.route("/user/otp-verify-password-forget-email").put(auth, ForgetPassEmail)
-router.route("/user/data-insert").post(auth, insertUserdata)
-router.route("/user/image-upload").post(auth, imageUpload)
+router.route("/user/data-insert").post(userExcel.single("images"),insertUserdata)
+router.route("/user/image-upload").post(imageUpload)
 export default router

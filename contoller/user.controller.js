@@ -354,39 +354,65 @@ export const ForgetPassEmail = async (req, res) => {
         })
     }
 }
+function importUseRes(uName, number, reason, key) {
+    return {
+        username: uName,
+        number: number,
+        reason:reason,
+        key:key
+    }
+}
 export const insertUserdata = async (req, res) => {
-    //  try {
-    const jsonarray = await csv().fromFile("xl-file.csv")
-    const finduser = await user.find(jsonarray)
-    if (finduser) {
+    try {
+        const jsonarray = await csv().fromFile(req.file.path)
+        var rejected = []
+        var success = 0
+        jsonarray.forEach(async (value, key) => {
+            const userFind = await user.findOne({ number: value.number })
+            if (!value.number) {
+                rejected.push(importUseRes(value.username, value.number, "Mobile no. can not to blenck.", key))
+            } else if (!value.password) {
+                rejected.push(importUseRes(value.username, value.number, "Password can not to blenck.", key))
+            } else if (userFind) {
+                rejected.push(importUseRes(value.username, value.number, "User is already taken", key))
+            } else {
+                let pass = await bcrypt.hash(value.password, 10)
+                value.password = pass
+                const creatuser = user.create(value)
+                if (creatuser) {
+                    success++
+                }
+            }
+        });
+        setTimeout(() => {
+            if (success == 0) {
+                res.send({
+                    status: false,
+                    msg: "No data inserted.",
+                    //rejected_data:rejected,
+                    success: success,
+                    rejected_data: rejected,
+                    total: jsonarray.length
+                })
+            } else {
+                res.send({
+                    status: true,
+                    msg: "Data inserted succefully.",
+                    //rejected_data:rejected,
+                    success: success,
+                    rejected_data: rejected,
+                    total: jsonarray.length
+                })
+            }
+        }, "1000");
+
+    } catch (err) {
         res.send({
             status: false,
-            msg: "users allready h",
-            data: {}
+            msg: "some misteck for data Server error",
+            data: err
         })
-    } else {
-        const insertdata = await user.insertMany(jsonarray)
-        if (insertdata) {
-            res.send({
-                status: true,
-                msg: "user insert success",
-                data: insertdata
-            })
-        } else {
-            res.send({
-                status: false,
-                msg: "some misteck for data",
-                data: {}
-            })
-        }
     }
-    //    } catch (err) {
-    //     res.send({
-    //         status:false,
-    //         msg:"some misteck for data Server error",
-    //         data:err
-    //     })
-    //    }
 }
 export const imageUpload = async (req, res) => {
     try {
@@ -396,7 +422,7 @@ export const imageUpload = async (req, res) => {
         if (lowerCash.indexOf("jpg") == 11 || lowerCash.indexOf("jpeg") == 11) {
             extension = 'jpg'
             var bare64Data = imagebash64.replace(/^data:image\/jpeg;base64,/, "")
-        } else if (lowerCash.indexOf("png") == 11 ) {
+        } else if (lowerCash.indexOf("png") == 11) {
             extension = 'png'
             var bare64Data = imagebash64.replace(/^data:image\/png;base64,/, "")
         }
@@ -405,24 +431,24 @@ export const imageUpload = async (req, res) => {
             console.log(err);
             if (err) {
                 res.send({
-                    status:false,
-                    msg:"image path error",
-                    data:err
+                    status: false,
+                    msg: "image path error",
+                    data: err
                 })
-            }else{
+            } else {
                 res.send({
-                    status:true,
-                    msg:"image upload success",
-                    data:imagePath
+                    status: true,
+                    msg: "image upload success",
+                    data: imagePath
                 })
             }
         })
 
     } catch (err) {
         res.send({
-            status:false,
-            msg:"server error",
-            data:err
+            status: false,
+            msg: "server error",
+            data: err
         })
     }
 }
