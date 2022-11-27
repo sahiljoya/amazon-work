@@ -48,3 +48,46 @@ export const getCetegorry = async (req, res) => {
         })
     }
 }
+export const getDataAgrigate = async(req,res)=>{
+   // try {
+        const data = await cetUser.aggregate([
+            {
+                $match:{
+                   name:{ $regex: req.query.search}
+                }
+               
+            },
+            {
+                "$lookup":{
+                    "from":"sub.cotegiris",
+                    "localField":"_id",
+                    "foreignField":"cateId",
+                    "as":"subCetegory"
+                }
+            },
+            {
+                "$unwind":{
+                    path:"$subCetegory",
+                    preserveNullAndEmptyArrays:true
+                }
+            },
+            {$limit:Number(10)},
+            // {$group:{
+            //     _id:{name:"$name"}
+            // }}
+        ])
+        console.log("data----",data)
+        res.send({
+            status:true,
+            msg:"AgryGate is pipeline conction DATA GET SUCCESSFULLY",
+            data:data
+        })
+    // } catch (err) { 
+    //     res.send({
+    //         status:false,
+    //         msg:'server ERROR',
+    //         data:err
+    //     })
+    // }
+}
+

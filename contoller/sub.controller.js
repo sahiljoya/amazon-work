@@ -53,3 +53,15 @@ export const getsub = async (req, res) => {
         })
     }
 }
+export const producteListe = async(req,res)=>{
+    try {
+        const userFind = await Subs.find({status:"Active"})
+        if (userFind) {
+        res.send(userFind) 
+        }else{
+            res.send("wronge")
+        }
+    } catch (err) {
+        res.send(err)
+    }
+}
