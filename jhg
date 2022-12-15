@@ -191,3 +191,31 @@
 //         })
 //     }
 // }
+
+
+
+
+
+// var users = {};
+// var allUsers = [];
+// var roomAll  = [];
+// socket.on('connection', (socket) => {
+//    console.log("Connected...",users);
+//    socket.on('judna', (data) => {
+// 	   allUsers.push(data.user)
+// 	   let allUsersFinal = [...new Set(allUsers)];
+// 	   roomAll[data.room] = allUsersFinal;
+
+// 	   if(roomAll[data.room].length <= 2){
+// 	 socket.join(data.room);
+// 	 users[socket.id] = data.user;
+// 	 var  JoinRes = {
+// 	   message: data.user+' has joined '+data.room+" room",
+// 	   users:users,
+//    };
+// 	 socket.broadcast.to(data.room).emit('ha_jud_gya_hai', JoinRes);
+//    }else{
+// 	   socket.emit('judna', 'Room is full');
+//    }
+//    });
+// });

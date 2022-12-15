@@ -1,4 +1,5 @@
 import { createServer } from "http";
+import { join } from "path";
 import { Server } from "socket.io";
 const httpServer = createServer();
 const socket = new Server(httpServer, {
@@ -55,18 +56,29 @@ const socket = new Server(httpServer, {
 // })
 
 
-var Udata = {}
-socket.on("connection",(socket)=>{
-	socket.on("join",function(data){
-		Udata[socket.id]= data.user
-		socket.join(data.room)
-		var myData = {
-			message:data.user+"has join "+data.room+"room",
-			users:Udata
-		}
-		socket.broadcast.to(data.room).emit("adami_jud_gaya",myData)
-	})
-})
+
+var users = {};
+var allUsers = [];
+var roomAll  = [];
+socket.on('connection', (socket) => {
+ //  console.log("Connected...",users);
+   socket.on('join', (data) => {
+	   allUsers.push(data.user)
+	   let allUsersFinal = [...new Set(allUsers)];
+	   roomAll[data.room] = allUsersFinal;
+	   if(roomAll[data.room].length <= 2){
+	 socket.join(data.room);
+	 users[socket.id] = data.user;
+	 var  JoinRes = {
+	   message: data.user+' has joined '+data.room+" room",
+	   users:users,
+   };
+	 socket.broadcast.to(data.room).emit('adami', JoinRes);
+   }else{
+	   socket.emit('judna', 'Room is full');
+   }
+   });
+});
 httpServer.listen(3003, () => {
 	console.log("=======================");
 })
