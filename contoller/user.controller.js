@@ -99,7 +99,7 @@ export const alldata = async (req, res) => {
     if (req.query.number) {
         where.number = req.query.number
     }
-    const data = await user.find(where)
+    const data = await user.find(where,{password:0})
     if (data.length > 0) {
         res.send({
             status: true,

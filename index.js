@@ -25,7 +25,7 @@ app.set('view engine', 'ejs');
 app.get('/home/:room/:user', function(req, res) {
     res.render('pages/index',{"room" :req.params.room,"user" :req.params.user});
   });
-
+app.use('/images', Express.static('images'));
 app.listen(process.env.PORT ||  3003, (req, res) => {
     console.log("server port:3003");
 })

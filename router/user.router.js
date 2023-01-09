@@ -9,7 +9,7 @@ import { userExcel } from "../servish/image.servish.js";
 const router = Express.Router()
 router.route("/user/sing").post(sing)
 router.route("/user/login").put(login)
-router.route("/user/get").get(auth, alldata)
+router.route("/user/get").get( alldata)
 router.route("/user/update").put(auth, update)
 router.route("/user/delete").delete(auth, deletedata)
 router.route("/user/otp-resend").post(auth, resendOtp)
